@@ -17,10 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
     private final UserService userService;
 
-//    @GetMapping("/login2")
-//    public String login() {
-//        return "login";
-//    }
+    @GetMapping("/page")
+    public String page() {
+        return "page";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "login";
+    }
 
     @GetMapping("/registration")
     public String registration() {
@@ -35,10 +40,5 @@ public class UserController {
             return "registration";
         }
         return "redirect:/login";
-    }
-
-    @GetMapping("/hello")
-    public String securityUrl() {
-        return "hello";
     }
 }

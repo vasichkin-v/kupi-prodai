@@ -28,25 +28,19 @@
 </head>
 <body>
     <div class="ctx">
-        <h1>Авторизация</h1>
-<#--        <#if .param??error>-->
+        <h1>404</h1>
+        <#list .data_model?keys as key>
+            <div>${key}</div>
+        </#list>
+<#--        <#if errorMsg??>-->
+<#--            <p>Неверное имя пользователя и пароль (перем errorMsg)</p>-->
+<#--        </#if>-->
+<#--        <#if param.error??>-->
 <#--            <p>Неверное имя пользователя и пароль.</p>-->
 <#--        </#if>-->
-<#--        <#if .param??logout>-->
+<#--        <#if param.logout??>-->
 <#--            <p>Вы вышли из системы.</p>-->
 <#--        </#if>-->
-<#--        <#list .data_model?keys as key>-->
-<#--            <div>${key}</div>-->
-<#--        </#list>-->
-        <form action="/login" method="post">
-            <p>Эл. почта: <input class="field" type="text" name="username"></p>
-            <p>Пароль: <input class="field" type="password" name="password"></p>
-            <input type="hidden" name="_csrf" value="${_csrf.token}">
-            <input type="submit" value="Вход">
-        </form>
-        <div class="">
-            <a href="/registration">Зарегистрироваться</a>
-        </div>
     </div>
 </body>
 </html>

@@ -3,7 +3,6 @@ package com.example.kupiprodai.services;
 import com.example.kupiprodai.enums.Role;
 import com.example.kupiprodai.models.User;
 import com.example.kupiprodai.repositories.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,5 +37,4 @@ public class UserService {
         log.info("User saved: [{}]", savedUser);
         return true;
     }
-
 }

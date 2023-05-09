@@ -2,15 +2,18 @@ package com.example.kupiprodai.services;
 
 import com.example.kupiprodai.models.Image;
 import com.example.kupiprodai.models.Product;
+import com.example.kupiprodai.models.User;
 import com.example.kupiprodai.repositories.ProductRepository;
+import com.example.kupiprodai.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.NonNull;
+import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +24,7 @@ public class ProductService {
     private static final int MAX_COUNT_IMG = 3;
     private static final int NUM_PREVIEW_IMG = 0;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     {
         // Это блок не статической инициализации (срабатывает при вызове любого конструктора).
@@ -36,7 +40,7 @@ public class ProductService {
         return productRepository.findByTitle(title);
     }
 
-    public void saveProduct(Product product, MultipartFile[] images) throws IOException {
+    public void saveProduct(Principal principal, Product product, MultipartFile[] images) throws IOException {
         if (images != null) {
             for (int i = 0; i < images.length; i++) {
                 if (images[i] != null && images[i].getSize() != 0) {
@@ -50,8 +54,19 @@ public class ProductService {
             }
         }
 
+        product.setUser(getCurrentUser(principal));
         log.debug("Try to save product [{}]", product);
         productRepository.save(product);
+    }
+
+    /**
+     * Получение текущего пользователся
+     * @param principal
+     * @return User
+     */
+    public User getCurrentUser(Principal principal) {
+        if (principal == null) return new User();
+        return userRepository.findByEmail(principal.getName());
     }
 
     public static Image toImageEntity(MultipartFile image, boolean isFirstImg) throws IOException {
@@ -71,14 +86,13 @@ public class ProductService {
     }
     
     public void update(Product product){
-        final Product entity = productRepository.getReferenceById(product.getId());
-        entity.setId(product.getId());
-        entity.setTitle(product.getTitle());
-        entity.setDescription(product.getDescription());
-        entity.setPrice(product.getPrice());
-        entity.setCity(product.getCity());
-        entity.setAuthor(product.getAuthor());
-        productRepository.save(entity);
+        final Product p = productRepository.getReferenceById(product.getId());
+        if(product.getTitle() != null) p.setTitle(product.getTitle());
+        if(product.getDescription() != null) p.setDescription(product.getDescription());
+        p.setPrice(product.getPrice());
+        if(product.getCity() != null) p.setCity(product.getCity());
+
+        productRepository.save(p);
     }
 
     public Product editProduct(@PathVariable Long id){

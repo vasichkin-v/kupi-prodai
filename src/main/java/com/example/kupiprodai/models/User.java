@@ -8,9 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 //@Getter
@@ -43,11 +41,12 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING) // чтоб в бд значение хранилось как строка
     private Set<Role> roles = new HashSet<>();
     private LocalDateTime dateOfCreated;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    private List<Product> products = new ArrayList<>();
 
     @PrePersist
     private void init(){
         dateOfCreated = LocalDateTime.now();
-
 //        TimeZone tz = TimeZone.getTimeZone("UTC");
 //        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
 //        df.setTimeZone(tz);

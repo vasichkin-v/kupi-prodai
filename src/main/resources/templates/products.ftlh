@@ -62,15 +62,17 @@
                 <h2>Товаров нет!</h2>
             </#list>
         </div>
-        <form action="/product/create" method="post" enctype="multipart/form-data">
-            <p>Название: <input class="field" type="text" name="title"></p>
-            <p>Описание: <input class="field" type="text" name="description"></p>
-            <p>Цена: <input class="field" type="text" name="price"></p>
-            <p>Город: <input class="field" type="text" name="city"></p>
-            <p>Автор: <input class="field" type="text" name="author"></p>
-            <p>Фото: <input type="file" name="images"></p>
-            <input type="submit" value="Добавить">
-        </form>
+        <#if user.email??>
+            <form action="/product/create" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="_csrf" value="${_csrf.token}">
+                <p>Название: <input class="field" type="text" name="title"></p>
+                <p>Описание: <input class="field" type="text" name="description"></p>
+                <p>Цена: <input class="field" type="text" name="price"></p>
+                <p>Город: <input class="field" type="text" name="city"></p>
+                <p>Фото: <input multiple="multiple" name="img" type="file"></p>
+                <input type="submit" value="Добавить">
+            </form>
+        </#if>
     </div>
 </body>
 </html>

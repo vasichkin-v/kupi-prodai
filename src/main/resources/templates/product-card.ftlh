@@ -41,7 +41,8 @@
                 <p class="product__item-text">${product.description}</p>
                 <p class="product__item-text">Цена: ${product.price} ₽</p>
                 <p class="product__item-text">Город: ${product.city}</p>
-                <p class="product__item-text">Автор: ${product.author}</p>
+                <p class="product__item-text">Автор: ${product.user.name}</p>
+                <p class="product__item-text">Телефон: ${product.user.phoneNumber}</p>
                 <#list product.images as img>
                     <img class="product__img" src="/images/${img.getId()}" alt="${img.getOriginalFileName()}">
                 </#list>

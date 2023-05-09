@@ -30,11 +30,12 @@ public class Product {
     private int price;
     @Column(name="city")
     private String city;
-    @Column(name="author")
-    private String author;
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn
+    private User user;
     @OneToMany(cascade = CascadeType.ALL, // При удалении товара, удалим все связанные с ним картинки
-            fetch = FetchType.LAZY, // При загрузке товара, не грузим картинки
-            mappedBy = "product" // С каким полем мапить (речь про поле в моделе images)
+        fetch = FetchType.LAZY, // При загрузке товара, не грузим картинки
+        mappedBy = "product" // С каким полем мапить (речь про поле в моделе images)
     )
     private List<Image> images = new ArrayList<>();
     @Column(name = "preview_image_id", columnDefinition = "varchar(36)")
@@ -58,7 +59,7 @@ public class Product {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", city='" + city + '\'' +
-                ", author='" + author + '\'' +
+                ", author='" + user.getUsername() + '\'' +
                 ", count_images=" + images.size() +
                 ", previewImageId=" + previewImageId +
                 ", dateOfCreated=" + dateOfCreated +

@@ -44,11 +44,11 @@
         <h1>Правим продукт</h1>
         <form action="/product/update" method="post">
             <input type="hidden" name="id" value="${product.id}">
+            <input type="hidden" name="_csrf" value="${_csrf.token}">
             <p>Название: <input type="text" name="title" value="${product.title}"></p>
             <p>Описание: <input type="text" name="description" value="${product.description}"></p>
             <p>Цена: <input type="text" name="price" value="#{product.price}"></p>
             <p>Город: <input type="text" name="city" value="${product.city}"></p>
-            <p>Автор: <input type="text" name="author" value="${product.author}"></p>
             <input type="submit" value="Сохранить">
         </form>
     </div>

@@ -1,5 +1,6 @@
 package com.example.kupiprodai.services;
 
+import com.example.kupiprodai.models.User;
 import com.example.kupiprodai.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username);
+        User byEmail = userRepository.findByEmail(username);
+//        throw new InternalAuthenticationServiceException("UserDetailsService returned null, which is an interface contract violation"); // это дефолтная ошибка из либы
+        if(byEmail == null) throw new UsernameNotFoundException("Такой пользователь не найден :(");
+        return byEmail;
     }
 }
