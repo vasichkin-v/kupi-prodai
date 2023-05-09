@@ -14,70 +14,49 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
-//@AllArgsConstructor
 @Slf4j
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
-
-
-//        http
-//            .authorizeRequests()
-//            .antMatchers(
-//                        "/",
-//                                "/images/**",
-//                                "/product/**",
-//                                "/registration"
-//            )
-//                .permitAll().anyRequest().authenticated().and()
-//                .formLogin().loginPage("/login").permitAll().and()
-//                .logout().permitAll();
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(8);
     }
 
-//    @Bean
-    public DefaultSecurityFilterChain securityFilterChainOFF(HttpSecurity http) throws Exception {
-//        SecurityFilterChain
-        http
-                .authorizeRequests()
+    @Bean
+    public DefaultSecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
                 .antMatchers(
                         "/",
                         "/images/**",
-                        "/product/**",
-                        "/registration"
-                )
-                .permitAll()
+                        "/hello"
+                ).permitAll()
                 .anyRequest().authenticated()
                 .and()
+//                .formLogin().loginPage("/login").permitAll()
                 .formLogin()
-                .loginPage("/login")
-                .permitAll()
                 .and()
                 .logout().permitAll();
 
         return http.build();
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/products").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin((form) -> form
-                        .loginPage("/login")
-                        .permitAll()
-                )
-                .logout((logout) -> logout.permitAll());
-
+//    @Bean
+//    @Order(0)
+    SecurityFilterChain resources(HttpSecurity http) throws Exception {
+        http.requestMatchers((matchers) -> matchers.antMatchers("/actuator/**", "/css/**", "/error"))
+                .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
+                .requestCache()
+                .disable()
+                .securityContext()
+                .disable()
+                .sessionManagement()
+                .disable();
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
+//    @Bean
+    public UserDetailsService userDetailsService() {  //todo У меня была эта ошибка, когда я случайно настроил два UserDetailsServiceкомпонента.
         log.debug("Получаем сервис сущ пользователей!");
         return customUserDetailsService;
     }

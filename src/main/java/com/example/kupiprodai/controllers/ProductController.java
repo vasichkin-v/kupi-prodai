@@ -15,12 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import static org.springframework.util.StringUtils.hasText;
+
 @Controller
 @RequiredArgsConstructor // Ломбок. Создаст конструктор с нужными инжектоми
 @Slf4j
 public class ProductController {
     private final ProductService productService;
-
 
     @GetMapping("/")
     public String welcome(){
@@ -29,7 +30,7 @@ public class ProductController {
 
     @GetMapping("/products")
     public String products(@RequestParam(name = "title", required = false)String title, Model model){
-        model.addAttribute("products", StringUtils.hasText(title) ?
+        model.addAttribute("products", hasText(title) ?
                 productService.findByTitle(title) : productService.listProducts());
         return "products";
     }

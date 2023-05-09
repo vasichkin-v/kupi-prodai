@@ -7,7 +7,10 @@
     <title>Index</title>
 </head>
 <body>
-<h1>Добро пожаловать в "КупиПродай"</h1>
+<h1>Стр. Welcome. Добро пожаловать в "КупиПродай".</h1>
 <div><a href="/products">Список объявлений</a></div>
+<div><a href="/login">Форма авторизации</a></div>
+<div><a href="/registration">Форма регистрации пользователя</a></div>
+<div><a href="/hello">Hello</a></div>
 </body>
 </html>

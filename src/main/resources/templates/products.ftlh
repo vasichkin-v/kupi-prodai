@@ -63,6 +63,7 @@
             </#list>
         </div>
         <form action="/product/create" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf" value="${_csrf.token}">
             <p>Название: <input class="field" type="text" name="title"></p>
             <p>Описание: <input class="field" type="text" name="description"></p>
             <p>Цена: <input class="field" type="text" name="price"></p>
