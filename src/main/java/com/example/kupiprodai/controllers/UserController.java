@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 //@RestController
@@ -30,6 +31,13 @@ public class UserController {
     @GetMapping("/registration")
     public String registration() {
         return "registration";
+    }
+
+    @GetMapping("/user/{userId}")
+    public String userInfo(@PathVariable("userId") User user, Model model){ // TODO откуда подгружается юзер с учетом переменной из path
+        model.addAttribute("user", user);
+        model.addAttribute("products", user.getProducts());
+        return "user-info";
     }
 
     @PostMapping("/registration")

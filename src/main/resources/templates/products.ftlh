@@ -63,6 +63,7 @@
             </#list>
         </div>
         <#if user.email??>
+            <h2>Создать новое объявление</h2>
             <form action="/product/create" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
                 <p>Название: <input class="field" type="text" name="title"></p>

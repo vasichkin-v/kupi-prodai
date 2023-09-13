@@ -17,13 +17,6 @@
             margin: 48px 0;
             background: #f3eeee;
         }
-        .field {
-            display: block;
-            height: 32px;
-            margin-top: 4px;
-            width: 100%;
-            box-sizing: border-box;
-        }
     </style>
 </head>
 <body>

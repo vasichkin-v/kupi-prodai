@@ -9,8 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-//@AllArgsConstructor // для всех полей
-@RequiredArgsConstructor // Конструктор только для final полей!
+//@AllArgsConstructor // Для всех полей
+@RequiredArgsConstructor // Конструктор только для полей помеченных как final
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
@@ -21,15 +21,11 @@ public class UserService {
             log.debug("User is null or have null email: [{}]", user);
             throw new RuntimeException("User is null or have null email");
         }
-
-        String email = user.getEmail();
-        User byEmail = userRepository.findByEmail(email);
-
+        User byEmail = userRepository.findByEmail(user.getEmail());
         if (byEmail != null) {
             log.debug("User with this email address is already registered: [{}]", byEmail);
             throw new RuntimeException("User with this email address is already registered");
         }
-
         user.setActive(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.getRoles().add(Role.USER);
