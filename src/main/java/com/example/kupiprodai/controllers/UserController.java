@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 //@RestController
-@Controller
 //@RequiredArgsConstructor
+@Controller
 @AllArgsConstructor
 @Slf4j
 public class UserController {
@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{userId}")
-    public String userInfo(@PathVariable("userId") User user, Model model){ // TODO откуда подгружается юзер с учетом переменной из path
+    public String userInfo(@PathVariable("userId") User user, Model model){
         model.addAttribute("user", user);
         model.addAttribute("products", user.getProducts());
         return "user-info";

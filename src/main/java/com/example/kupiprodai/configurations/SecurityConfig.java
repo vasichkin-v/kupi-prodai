@@ -4,6 +4,7 @@ import com.example.kupiprodai.services.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +23,7 @@ import java.io.IOException;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Slf4j
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 //public class SecurityConfig extends WebSecurityConfigurerAdapter {
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
@@ -41,7 +43,7 @@ public class SecurityConfig {
 //                .addFilter() // тут можно добавить псеводАвторизацию (subCls OncePerRequestFilter)
                 .authorizeRequests()
                 .antMatchers(
-                        "/", "/images/**", "/page", "/registration"
+                        "/", "/images/**", "/page", "/registration", "/user/*"
                 ).permitAll()
                 .anyRequest()
                 .authenticated()

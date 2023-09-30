@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 //@AllArgsConstructor // Для всех полей
 @RequiredArgsConstructor // Конструктор только для полей помеченных как final
@@ -32,5 +35,27 @@ public class UserService {
         User savedUser = userRepository.save(user);
         log.info("User saved: [{}]", savedUser);
         return true;
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getById(Long userId) {
+        Optional<User> byId = userRepository.findById(userId);
+        if(byId.isEmpty()) {
+            log.debug("Not found user with id: {}", userId);
+            return new User();
+        }
+        return byId.get();
+    }
+
+    public void userBаnById(Long userId) {
+        User byId = getById(userId);
+        if(byId.getId() != null){
+            byId.setActive(!byId.isActive());
+            userRepository.save(byId);
+            log.debug("User banned (no active): {}", !byId.isActive());
+        }
     }
 }

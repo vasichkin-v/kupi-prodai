@@ -23,6 +23,7 @@
         </#if>
         <div><a href="/products">Список объявлений</a></div>
         <div><a href="/page">Page</a></div>
+        <#if user.isAdmin()><div><a href="/admin/users">Админпанель</a></div></#if>
         <#if user.name??>
             <div><a href="/logout">Выход</a></div>
         <#else>

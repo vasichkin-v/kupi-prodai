@@ -7,7 +7,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Entity
@@ -47,10 +50,6 @@ public class User implements UserDetails {
     @PrePersist
     private void init(){
         dateOfCreated = LocalDateTime.now();
-//        TimeZone tz = TimeZone.getTimeZone("UTC");
-//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
-//        df.setTimeZone(tz);
-//        String nowAsISO = df.format(new Date());
     }
 
     @Override
@@ -81,5 +80,19 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return active;
+    }
+
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMINISTRATOR);
+    }
+
+    public String toFormatDate(){
+//        TimeZone tz = TimeZone.getTimeZone("UTC"); //todo тут ошибка, разобраться
+//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+//        df.setTimeZone(tz);
+//        String asISO = df.format(dateOfCreated);
+//        return asISO;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return dateOfCreated.format(formatter); // todo добавить в вывод таймзону или приводить к локальной. Так же сделать хранение в UTC
     }
 }
